@@ -1,0 +1,59 @@
+a. What is the use of SQlite open helper class in SQLite?
+
+SQLiteOpenHelper - A helper class to manage database creation and version management.
+
+We create a subclass implementing onCreate(SQLiteDatabase), onUpgrade(SQLiteDatabase, int, int) and optionally onOpen(SQLiteDatabase).
+
+And this class takes care of opening the database if it exists, creating it if it does not, and upgrading it as necessary. 
+
+Transactions are used to make sure the database is always in a sensible state.
+
+============================================
+
+b. What is the use of OnUpgrade function in SQLiteOpenHelper class?
+
+onUpgrade() – This method is called when database is upgraded like modifying
+the table structure, adding constraints to database etc.
+
+============================================
+
+c. How to show sqlite database table information in android application what is the best way to do it?
+
+create a method to read entry inside our Database class (which is extending SQLiteOpenHelper) 
+Example: readAnEntry(int id)
+
+now in our MainActivity class create intent inside onClick method
+Example: 
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, SecondActivity.class);
+        intent.putExtra(new Pojo().getName(), listOfEntries.get(position).getId());
+        startActivityForResult(intent, 1);
+
+in our SecondActivity class 
+we can get intent 
+create an object to Database class
+and retrieve an entry using out Database class's method to read entry (say: readAnEntry(int id))
+Example:
+        Intent intent = getIntent();
+        int id = intent.getIntExtra(new PojoClass().getName(), -1);
+
+        db = new DB(getApplicationContext());
+        selectedEntry = db.readAnEntry(id);
+
+        nameTextView.setText(selectedEntry.getName());
+
+
+Where PojoClass consists of Column variables and Setters ad Getters
+Example:
+public class Pojo {
+    private int id;
+    private String name;
+    private String rollNumber;
+
+   constructors...
+
+   Setters and getters...
+
+}
+
+============================================
